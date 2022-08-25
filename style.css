@@ -1,0 +1,185 @@
+:root {
+    --fontRetro: 'Limelight', cursive;
+    --fontText: 'Roboto', sans-serif;
+    --fontDisplay: 'Syne Mono', monospace;
+}
+
+body {
+    background-color: beige;
+    margin: 0;
+    font-family: var(--fontText);
+    color: darkslategrey
+}
+
+.content {
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-family: var(--fontRetro);
+    font-weight: normal;
+    position: absolute;
+    text-align: right;
+    margin: 20px;
+    font-size: 3em;
+    text-shadow: 3px 3px cadetblue;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border-right: 3px solid cadetblue;
+    border-bottom: 3px solid cadetblue;
+
+}
+
+.calculator {
+    width: 600px;
+}
+
+.calculator img {
+    overflow: hidden;
+
+}
+
+.calculator  div  {
+    position: absolute;
+    transform: none;
+    
+}
+
+button {
+    position: absolute;
+    height: 40px;
+    width: 50px;
+    z-index: 10;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#btnPlusMinus {
+    transform: rotate(-25deg) translate(15%, 1700%);
+}
+
+#btnDot {
+    transform: rotate(-25deg) translate(135%, 1710%);
+}
+
+#btn0 {
+    transform: rotate(-25deg) translate(255%, 1710%);
+}
+
+#btnPercent {
+    transform: rotate(-25deg) translate(370%, 1710%);
+}
+
+#btnEqual {
+    transform: rotate(-25deg) translate(490%, 1720%);
+}
+
+#btnRoot {
+    transform: rotate(-25deg) translate(15%, 1570%);
+}
+
+#btn1 {
+    transform: rotate(-25deg) translate(130%, 1570%);
+}
+
+#btn2 {
+    transform: rotate(-25deg) translate(250%, 1590%);
+}
+
+#btn3 {
+    transform: rotate(-25deg) translate(365%, 1590%);
+}
+
+#btnPlus {
+    transform: rotate(-25deg) translate(480%, 1590%);
+}
+
+#btnSquare {
+    transform: rotate(-25deg) translate(10%, 1450%);
+}
+
+#btn4 {
+    transform: rotate(-25deg) translate(125%, 1450%);
+}
+
+#btn5 {
+    transform: rotate(-25deg) translate(240%, 1450%);
+}
+
+#btn6 {
+    transform: rotate(-25deg) translate(355%, 1460%);
+}
+
+#btnMinus {
+    transform: rotate(-25deg) translate(470%, 1460%);
+}
+
+#btnFactorial {
+    transform: rotate(-25deg) translate(-10%, 1320%);
+}
+
+#btn7 {
+    transform: rotate(-25deg) translate(110%, 1320%);
+}
+
+#btn8 {
+    transform: rotate(-25deg) translate(230%, 1320%);
+}
+
+#btn9 {
+    transform: rotate(-25deg) translate(345%, 1330%);
+}
+
+#btnX {
+    transform: rotate(-25deg) translate(460%, 1330%);
+}
+
+#btnOn {
+    transform: rotate(-25deg) translate(-20%, 1190%);
+}
+
+#btnOff {
+    transform: rotate(-25deg) translate(100%, 1190%);
+}
+
+#btnMPlus {
+    transform: rotate(-25deg) translate(220%, 1200%);
+}
+
+#btnRM {
+    transform: rotate(-25deg) translate(330%, 1200%);
+}
+
+#btnDivide {
+    transform: rotate(-25deg) translate(450%, 1200%);
+}
+
+.button {
+    transition: all 0.1s ease-in-out;
+}
+
+button:active ~ .button{
+    transform: translate(0px, 4px)
+}
+
+.display {
+    font-family: var(--fontDisplay);
+    font-size: 1.4em;
+    letter-spacing: 0.4em;
+    text-align: right;
+    transform: rotate(-22deg) translate(-53%, 950%) skew(347deg);
+    color: hsl(348, 48%, 50%);
+    text-shadow: 0px 0px 3px crimson;
+    animation: display 0.2s alternate infinite;
+}
+
+@keyframes display {
+    0% {color: hsl(348, 77%, 45%)}
+    45% {color: hsl(348, 100%, 39%)}
+    50% {color: hsl(348, 100%, 39%)}
+    75% {color: hsl(348, 91%, 32%)}
+    100% {color: hsl(346, 64%, 53%)}
+}
