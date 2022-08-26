@@ -4,6 +4,8 @@ let currentValue = 0;
 let eraseInput = true;
 let lastOperation = null;
 let clearAll = 0;
+let output = null;
+let sign = "";
 
 display = document.getElementById("display");
 
@@ -62,18 +64,20 @@ function writeNumber(num) {
     clearAll = 1;
     if (power) {
         if (display.textContent == "0" || eraseInput == true) {
-            display.textContent = num;
+            display.textContent = parseFloat(num);
             eraseInput = false; 
         } else if (display.textContent.length < 8) {
             display.textContent += num;
         }
     }
+    displayToOutput();
 }
 
 
 btnOn.addEventListener("click", function() {
     power = true;
     display.textContent = "0";
+    output = 0;
     clearAll++;
     if (clearAll == 3) {
         lastOperation = null;
@@ -84,6 +88,7 @@ btnOn.addEventListener("click", function() {
 
 btnOff.addEventListener("click", function() {
     power = false;
+    output = null;
     display.textContent = "";
     lastOperation = null;
     temp = null;
@@ -92,14 +97,25 @@ btnOff.addEventListener("click", function() {
 
 function calculate(operation) {
     clearAll = 1;
+
     if (temp === null) {
-        temp = parseFloat(display.textContent);
+        temp = output;                   //
         lastOperation = operation;
         eraseInput = true;
     } else {
         equals(operation)
     }
+    outputToDisplay;
 }
+
+function outputToDisplay() {
+    display.textContent = output;
+}
+
+function displayToOutput() {
+    output = parseFloat(display.textContent);
+}
+
 
 btnPlus.addEventListener("click", function() {
     calculate("add")
@@ -117,6 +133,21 @@ btnDivide.addEventListener("click", function() {
     calculate("div")
 });
 
+btnRoot.addEventListener("click", function() {
+    output = Math.sqrt(output);
+    outputToDisplay();
+});
+
+btnSquare.addEventListener("click", function() {
+    output = output ** 2;
+    outputToDisplay();
+});
+
+btnFactorial.addEventListener("click", function() {
+    output = 1 / output;
+    outputToDisplay();
+});
+
 
 
 btnEqual.addEventListener("click", function() {
@@ -126,24 +157,24 @@ btnEqual.addEventListener("click", function() {
 function equals(operation) {
     clearAll = 1;
 
-    currentValue = parseFloat(display.textContent);
+    currentValue = output;          //
     eraseInput = true;
 
     switch (lastOperation) {
         case "add":
-            display.textContent = temp + currentValue;
+            output = temp + output;
             break;
         
         case "sub":
-            display.textContent = temp - currentValue;
+            output = temp - output;
             break;
 
         case "mul":
-            display.textContent = temp * currentValue;
+            output = temp * output;
             break;
 
         case "div":
-            display.textContent = temp / currentValue;
+            output = temp / output;
             break;
     }
 
@@ -152,8 +183,10 @@ function equals(operation) {
         temp = null;
     } else {
         lastOperation = operation;
-        temp = parseFloat(display.textContent);
+        temp = output;              ///
     }
+
+    outputToDisplay();
     
 
 }
