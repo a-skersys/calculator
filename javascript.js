@@ -3,6 +3,7 @@ let temp = null;
 let currentValue = 0;
 let eraseInput = true;
 let lastOperation = null;
+let clearAll = 0;
 
 display = document.getElementById("display");
 
@@ -57,13 +58,14 @@ btnDot.addEventListener("click", function() {
 });
 
 
-function writeNumber(x) {
+function writeNumber(num) {
+    clearAll = 1;
     if (power) {
         if (display.textContent == "0" || eraseInput == true) {
-            display.textContent = x;
+            display.textContent = num;
             eraseInput = false; 
         } else if (display.textContent.length < 8) {
-            display.textContent += x;
+            display.textContent += num;
         }
     }
 }
@@ -72,45 +74,86 @@ function writeNumber(x) {
 btnOn.addEventListener("click", function() {
     power = true;
     display.textContent = "0";
+    clearAll++;
+    if (clearAll == 3) {
+        lastOperation = null;
+        temp = null;
+        clearAll = 0;
+    }
 });
 
 btnOff.addEventListener("click", function() {
     power = false;
     display.textContent = "";
+    lastOperation = null;
+    temp = null;
+    clearAll = 0;
 });
 
-btnPlus.addEventListener("click", function() {
+function calculate(operation) {
+    clearAll = 1;
     if (temp === null) {
         temp = parseFloat(display.textContent);
-        lastOperation = "add";
+        lastOperation = operation;
         eraseInput = true;
+    } else {
+        equals(operation)
     }
+}
+
+btnPlus.addEventListener("click", function() {
+    calculate("add")
 });
 
 btnMinus.addEventListener("click", function() {
-    if (temp === null) {
-        temp = parseFloat(display.textContent);
-        lastOperation = "sub";
-        eraseInput = true;
-    }
+    calculate("sub")
 });
+
+btnX.addEventListener("click", function() {
+    calculate("mul")
+});
+
+btnDivide.addEventListener("click", function() {
+    calculate("div")
+});
+
+
 
 btnEqual.addEventListener("click", function() {
     equals("result");
 });
 
 function equals(operation) {
-    if (operation == "result") {
-        currentValue = parseFloat(display.textContent);
-        if (lastOperation == "add") {
+    clearAll = 1;
+
+    currentValue = parseFloat(display.textContent);
+    eraseInput = true;
+
+    switch (lastOperation) {
+        case "add":
             display.textContent = temp + currentValue;
-        } else if (lastOperation == "sub") {
+            break;
+        
+        case "sub":
             display.textContent = temp - currentValue;
-        }    
+            break;
+
+        case "mul":
+            display.textContent = temp * currentValue;
+            break;
+
+        case "div":
+            display.textContent = temp / currentValue;
+            break;
+    }
+
+    if (operation == "result") {
         lastOperation = null;
-        eraseInput = true;
         temp = null;
-    } 
+    } else {
+        lastOperation = operation;
+        temp = parseFloat(display.textContent);
+    }
     
 
 }
