@@ -165,15 +165,22 @@ button:active ~ .button{
     transform: translate(0px, 4px)
 }
 
-.display {
+.display, .sign {
     font-family: var(--fontDisplay);
     font-size: 1.4em;
     letter-spacing: 0.4em;
     text-align: right;
-    transform: rotate(-22deg) translate(-53%, 950%) skew(347deg);
     color: hsl(348, 48%, 50%);
     text-shadow: 0px 0px 3px crimson;
     animation: display 0.2s alternate infinite;
+}
+
+.display {
+    transform: rotate(-22deg) translate(-53%, 950%) skew(347deg);
+}
+
+.sign {
+    transform: rotate(-22deg) translate(-79%, 775%) skew(347deg);
 }
 
 @keyframes display {
