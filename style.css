@@ -161,8 +161,9 @@ button {
     transition: all 0.1s ease-in-out;
 }
 
+button.active ~ .button,
 button:active ~ .button{
-    transform: translate(0px, 4px)
+    transform: translate(0px, 4px);
 }
 
 .display, .sign {

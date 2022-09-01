@@ -10,82 +10,60 @@ let decimalCount;
 let integerCount;
 let memory;
 
+let btnPlus = document.getElementById("btnPlus"); 
+
 window.onload = resetAll();
 
-window.addEventListener('keydown', function(e) {
-    switch (e.key) {
-        case " ":
-            operationOn();
-            break;
 
-        case "Escape":
-            operationOff();
-            break;            
-
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-        case "0":
-            writeNumber(e.key);
-            break;
-        
-        case ".":
-        case ",":
-            writeNumber(".");
-            break;
-
-        case "+":
-            operationAdd();
-            btnPlus.style.transform="translate(0px, 4px)";
-            break;
- 
-        case "-":11
-            operationSub();
-            break;
-        
-        case "*":
-            operationMul();
-            break;
-        
-        case "/":
-            operationDiv();
-            break;
-
-        case "Enter":
-            equals("result");
-            break;
-
-        case "V":
-        case "v":    
-            operationRoot();
-            break;
-        
-        case "Shift":
-            operationPlusMinus();
-            break;
-
-        case "^":
-            operationSquare();
-            break;
-
-        case "!":
-            operationFactorial();
-
-        case "%":
-            operationPercent();
-            break;
-
-        default:
-            break;
-    }
+const shortcuts = [
+    { key: " ", button: "btnOn" },
+    { key: "Escape", button: "btnOff" },
+    { key: "1", button: "btn1" },
+    { key: "2", button: "btn2" },
+    { key: "3", button: "btn3" },
+    { key: "4", button: "btn4" },
+    { key: "5", button: "btn5" },
+    { key: "6", button: "btn6" },
+    { key: "7", button: "btn7" },
+    { key: "8", button: "btn8" },
+    { key: "9", button: "btn9" },
+    { key: "0", button: "btn0" },
+    { key: ".", button: "btnDot" },
+    { key: ",", button: "btnDot" },
+    { key: "+", button: "btnPlus" },
+    { key: "-", button: "btnMinus" },
+    { key: "*", button: "btnX" },
+    { key: "/", button: "btnDivide" },
+    { key: "Enter", button: "btnEqual" },
+    { key: "%", button: "btnPercent" },
+    { key: "Control", button: "btnPlusMinus" },
+    { key: "V", button: "btnRoot" },
+    { key: "v", button: "btnRoot" },
+    { key: "S", button: "btnSquare" },
+    { key: "s", button: "btnSquare" },
+    { key: "I", button: "btnFactorial" },
+    { key: "i", button: "btnFactorial" },
+    { key: "M", button: "btnMPlus" },
+    { key: "m", button: "btnMPlus" },
+    { key: "R", button: "btnRM" },
+    { key: "r", button: "btnRM" },
     
-    }, false);
+];
+
+window.addEventListener("keydown", function(e) {
+    function connect(shortcut) { return shortcut.key == e.key; }
+    var result = shortcuts.find(connect);
+    document.getElementById(result.button).className = 'active';
+    document.getElementById(result.button).click();
+}, false);
+
+window.addEventListener("keyup", function(e) {
+    function connect(shortcut) { return shortcut.key == e.key; }
+    var result = shortcuts.find(connect);
+    document.getElementById(result.button).className = '';
+}, false);
+
+    
 
 function resetAll() {
     temp = null;
@@ -229,7 +207,7 @@ function displayToOutput() {
     output = parseFloat(display.textContent);
 }
 
- 
+
 
 btnPlus.addEventListener("click", function() { operationAdd() });
 
