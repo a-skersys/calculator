@@ -9,6 +9,8 @@ let outputString;
 let decimalCount;
 let integerCount;
 let memory;
+let writeDecimals;
+let decimalsWritten;
 
 let btnPlus = document.getElementById("btnPlus"); 
 
@@ -75,12 +77,16 @@ function resetAll() {
     outputString = "";
     decimalCount = 0;
     integerCount = 0;
+    writeDecimal = false;
+    decimalsWritten = false;
 }
 
 
 display = document.getElementById("display");
 
 sign = document.getElementById("sign");
+
+dot = document.getElementById("dot");
 
 btn1.addEventListener("click", function() {
     writeNumber(1);
@@ -126,33 +132,69 @@ btnDot.addEventListener("click", function() {
     writeNumber(".");
 });
 
+function blink() {
+    display.style.opacity = 0;
+    sign.style.opacity = 0;
+    dot.style.opacity = 0;
+    setTimeout(() => {
+        display.style.opacity = 1;
+        sign.style.opacity = 1;
+        dot.style.opacity = 1;
+    }, 300);
+}
 
 function writeNumber(num) {
+    blink();
     clearAll = 1;
-    sign.textContent = "";
     if (power) {
-        if (display.textContent == "0" || eraseInput == true) {
-            display.textContent = parseFloat(num);
-            eraseInput = false; 
-        } else if (display.textContent.length < 8) {
-            display.textContent += num;
+        if (num == "." && !decimalsWritten) {
+            writeDecimals = true;
+        } else {
+            if (writeDecimals) {
+                if (display.textContent == "0" || eraseInput == true) {
+                    sign.textContent = "";
+                    display.textContent = "0." + num;
+                    eraseInput = false;
+                } else if (display.textContent.length < 8) {
+                    display.textContent = display.textContent + "." + num;
+                }
+                writeDecimals = false;
+                displayToOutput();
+                outputToDisplay();
+                decimalsWritten = true;
+            } else {
+                if (display.textContent == "0" || eraseInput == true) {
+                    sign.textContent = "";
+                    output = parseFloat(num);
+                    eraseInput = false; 
+                } else if (display.textContent.length < 8) {
+                    let temp = output.toString() + num.toString();
+                    output = parseFloat(temp);
+                    
+                }
+                outputToDisplay();
+            }
         }
     }
-    displayToOutput();
 }
 
 
 btnOn.addEventListener("click", function() { operationOn() });
 
 function operationOn() {
+    blink();
     power = true;
     display.textContent = "0";
+    decimalsWritten = false;
     sign.textContent = "";
+    dot.textContent = ".";
     output = 0;
     clearAll++;
     if (clearAll == 3) {
         resetAll();
-        display.textContent = "";
+        blink();
+        display.textContent = "0";
+        dot.textContent = ".";
     }
 }
 
@@ -161,10 +203,14 @@ btnOff.addEventListener("click", function() { operationOff() });
 function operationOff() {
     resetAll();
     display.textContent = "";
+    sign.textContent = "";
+    dot.textContent = "";
     power = false;
 }
 
 function calculate(operation) {
+    blink();
+
     clearAll = 1;
 
     if (temp === null) {
@@ -189,22 +235,35 @@ function outputToDisplay() {
     if (outputString.indexOf(".") <= 0) {
         integerCount = outputString.length;
         decimalCount = 0;
+        dot.textContent = ".";
     } else {
         integerCount = outputString.indexOf(".");
-        decimalCount = outputString.length - integerCount - 1;
+        outputString = outputString.replace('.', '').slice(0, 8);
+        decimalCount = outputString.length - integerCount;
+        dot.textContent = ".";
+        for (let i = 0; i < decimalCount; i++) {
+            dot.textContent += String.fromCharCode(160);
+        }
+
     }
 
-    if (integerCount > 8 || isNaN(output)) {
+    if (integerCount > 8 || isNaN(output) || output > 99999999 ) {
+        resetAll();
+        sign.textContent = "";
+        dot.textContent = "";
         display.textContent = "ERR";
-    } else if (decimalCount + integerCount >= 7) {
-        display.textContent = Math.abs(output).toFixed(8 - integerCount - 1);
     } else {
         display.textContent = outputString;
+
     }
 }
 
 function displayToOutput() {
     output = parseFloat(display.textContent);
+    if (sign.textContent == "–") {
+        output = Math.abs(output) * -1;
+    }
+    
 }
 
 
@@ -244,6 +303,7 @@ function operationDiv() {
 btnRoot.addEventListener("click", function() { operationRoot() });
 
 function operationRoot() {
+    blink();
     if(power) {
         output = Math.sqrt(output);
         outputToDisplay();
@@ -253,6 +313,7 @@ function operationRoot() {
 btnSquare.addEventListener("click", function() { operationSquare() });
 
 function operationSquare() {
+    blink();
     if(power) {
         output = output ** 2;
         outputToDisplay();
@@ -262,6 +323,7 @@ function operationSquare() {
 btnFactorial.addEventListener("click", function() { operationFactorial() });
 
 function operationFactorial() {
+    blink();
     if(power) {
         output = 1 / output;
         outputToDisplay();
@@ -271,6 +333,7 @@ function operationFactorial() {
 btnPlusMinus.addEventListener("click", function() { operationPlusMinus() });
 
 function operationPlusMinus() {
+    blink();
     if(power) {
         output = output * (-1);
         outputToDisplay();
@@ -281,6 +344,7 @@ function operationPlusMinus() {
 btnPercent.addEventListener("click", function() { operationPercent() })
 
 function operationPercent() {
+    blink();
     if(power) {
         if (lastOperation == "add" ||
             lastOperation == "sub") {
@@ -294,18 +358,23 @@ function operationPercent() {
 }
 
 btnMPlus.addEventListener("click", function() {
+    blink();
     if(power) {
         memory += output;
     }
 })
 
 btnRM.addEventListener("click", function() {
+    blink();
     
 })
 
-btnEqual.addEventListener("click", function() { equals("result") });
+btnEqual.addEventListener("click", function() {
+    equals("result")
+});
 
 function equals(operation) {
+    blink();
     if (power) {
         clearAll = 1;
 
@@ -341,6 +410,7 @@ function equals(operation) {
         }
 
         if (operation == "result") {
+            blink();
             lastOperation = null;
             temp = null;
         } else {

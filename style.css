@@ -8,29 +8,116 @@ body {
     background-color: beige;
     margin: 0;
     font-family: var(--fontText);
-    color: darkslategrey
+    color: darkslategrey;
+    width: 100vw;
 }
 
 .content {
+    margin: auto;
     display: flex;
-    width: 100vw;
+    width: 100%;
+    max-width: 1000px;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
 h1 {
     font-family: var(--fontRetro);
+    color: cadetblue;
     font-weight: normal;
     position: absolute;
     text-align: right;
     margin: 20px;
     font-size: 3em;
-    text-shadow: 3px 3px cadetblue;
+    top: 0px;
     padding-right: 20px;
     padding-bottom: 10px;
     border-right: 3px solid cadetblue;
     border-bottom: 3px solid cadetblue;
 
+}
+
+.info {
+    position: absolute;
+    width: 50%;
+    top: 350px;
+    left: 20px;
+    padding: 20px;
+    border-bottom: 3px solid cadetblue;
+    border-left: 3px solid cadetblue;
+    font-family: var(--fontText);
+    font-weight: 600;
+    color: cadetblue;
+}
+
+.info > p {
+    padding: 0;
+    margin: 3px;
+}
+
+.about {
+    position: absolute;
+    width: 50%;
+    top: 550px;
+    left: 20px;
+    padding: 20px;
+    border-top: 3px solid cadetblue;
+    border-left: 3px solid cadetblue;
+    font-family: var(--fontText);
+    font-weight: 400;
+    color: darkslategrey;
+}
+
+h2 {
+    font-family: var(--fontRetro);
+    font-size: 2em;
+    margin: 0;
+    color: cadetblue;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+li {
+    padding: 5px 0px;
+}
+
+.table {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.title, .entry {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.entry > div, .title > div {
+    width: 150px;
+    text-align: center;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-weight: 600;
+}
+
+span {
+    display: inline-block;
+    background: cadetblue;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: beige;
 }
 
 .calculator {
@@ -166,7 +253,7 @@ button:active ~ .button{
     transform: translate(0px, 4px);
 }
 
-.display, .sign {
+.display, .sign, .dot {
     font-family: var(--fontDisplay);
     font-size: 1.4em;
     letter-spacing: 0.4em;
@@ -180,8 +267,12 @@ button:active ~ .button{
     transform: rotate(-22deg) translate(-53%, 950%) skew(347deg);
 }
 
+.dot {
+    transform: rotate(-22deg) translate(-48.5%, 788%) skew(347deg);
+}
+
 .sign {
-    transform: rotate(-22deg) translate(-79%, 775%) skew(347deg);
+    transform: rotate(-22deg) translate(-75%, 610%) skew(347deg);
 }
 
 @keyframes display {
