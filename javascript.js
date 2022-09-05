@@ -8,14 +8,30 @@ let output;
 let outputString;
 let decimalCount;
 let integerCount;
-let memory;
+let memory = 0;
 let writeDecimals;
 let decimalsWritten;
-
-let btnPlus = document.getElementById("btnPlus"); 
+let memoryShown;
 
 window.onload = resetAll();
 
+
+function resetAll() {
+    temp = null;
+    currentValue = 0;
+    eraseInput = true;
+    lastOperation = null;
+    clearAll = 0;
+    output = null;
+    outputString = "";
+    decimalCount = 0;
+    integerCount = 0;
+    writeDecimal = false;
+    decimalsWritten = false;
+    memoryShown = false;
+}
+
+// Array of Shortcuts
 
 const shortcuts = [
     { key: " ", button: "btnOn" },
@@ -52,6 +68,26 @@ const shortcuts = [
     
 ];
 
+// Disable default keyboard functions
+
+addEvent(window, 'keydown', function( e ){
+    e.preventDefault();
+});
+
+function addEvent( el, evt, fn, capture ){
+    if( el.addEventListener ){
+      el.addEventListener( evt, fn, capture )  
+    } 
+    else if( el.attachEvent ){
+      el.attachEvent('on' + evt, fn );
+    } 
+    else {
+      el['on' + evt] = fn; 
+    }  
+  }
+
+// Takes keypress and activates according buttom
+
 window.addEventListener("keydown", function(e) {
     function connect(shortcut) { return shortcut.key == e.key; }
     var result = shortcuts.find(connect);
@@ -65,28 +101,17 @@ window.addEventListener("keyup", function(e) {
     document.getElementById(result.button).className = '';
 }, false);
 
-    
-
-function resetAll() {
-    temp = null;
-    currentValue = 0;
-    eraseInput = true;
-    lastOperation = null;
-    clearAll = 0;
-    output = null;
-    outputString = "";
-    decimalCount = 0;
-    integerCount = 0;
-    writeDecimal = false;
-    decimalsWritten = false;
-}
-
+// Output elements
 
 display = document.getElementById("display");
 
 sign = document.getElementById("sign");
 
 dot = document.getElementById("dot");
+
+memorySymbol = document.getElementById("memory");
+
+// Buttons Event Listeners
 
 btn1.addEventListener("click", function() {
     writeNumber(1);
@@ -132,20 +157,85 @@ btnDot.addEventListener("click", function() {
     writeNumber(".");
 });
 
+btnOn.addEventListener("click", function() {
+    operationOn()
+});
+
+btnOff.addEventListener("click", function() {
+    operationOff()
+});
+
+btnPlus.addEventListener("click", function() {
+    operationAdd()
+});
+
+btnMinus.addEventListener("click", function() {
+    operationSub()
+});
+
+btnX.addEventListener("click", function() {
+    operationMul()
+});
+
+btnDivide.addEventListener("click", function() {
+    operationDiv()
+});
+
+btnRoot.addEventListener("click", function() {
+    operationRoot()
+});
+
+btnSquare.addEventListener("click", function() {
+    operationSquare()
+});
+
+btnFactorial.addEventListener("click", function() {
+    operationFactorial()
+});
+
+btnPlusMinus.addEventListener("click", function() {
+    operationPlusMinus()
+});
+
+btnPercent.addEventListener("click", function() {
+    operationPercent()
+})
+
+btnMPlus.addEventListener("click", function() {
+    operationMPlus()
+})
+
+btnRM.addEventListener("click", function() {
+    operationRM()
+})
+
+btnEqual.addEventListener("click", function() {
+    equals("result")
+});
+
+// Slow calculation delay effect
+
 function blink() {
     display.style.opacity = 0;
     sign.style.opacity = 0;
     dot.style.opacity = 0;
+    memorySymbol.style.opacity = 0;
     setTimeout(() => {
         display.style.opacity = 1;
         sign.style.opacity = 1;
         dot.style.opacity = 1;
+        if (memory != 0) {
+            memorySymbol.style.opacity = 1;
+        }
     }, 300);
 }
+
+// Functions
 
 function writeNumber(num) {
     blink();
     clearAll = 1;
+    memoryShown = false;
     if (power) {
         if (num == "." && !decimalsWritten) {
             writeDecimals = true;
@@ -178,18 +268,19 @@ function writeNumber(num) {
     }
 }
 
-
-btnOn.addEventListener("click", function() { operationOn() });
-
 function operationOn() {
     blink();
     power = true;
     display.textContent = "0";
     decimalsWritten = false;
+    memoryShown = false;
     sign.textContent = "";
     dot.textContent = ".";
     output = 0;
     clearAll++;
+    if (memory != 0) {
+        memorySymbol.style.opacity = 1;
+    }
     if (clearAll == 3) {
         resetAll();
         blink();
@@ -198,13 +289,12 @@ function operationOn() {
     }
 }
 
-btnOff.addEventListener("click", function() { operationOff() });
-
 function operationOff() {
     resetAll();
     display.textContent = "";
     sign.textContent = "";
     dot.textContent = "";
+    memorySymbol.style.opacity = 0;
     power = false;
 }
 
@@ -212,6 +302,7 @@ function calculate(operation) {
     blink();
 
     clearAll = 1;
+    memoryShown = false;
 
     if (temp === null) {
         temp = output;                   //
@@ -224,6 +315,7 @@ function calculate(operation) {
 }
 
 function outputToDisplay() {
+    
     if (output < 0) {
         sign.textContent = "–";
     } else {
@@ -244,7 +336,6 @@ function outputToDisplay() {
         for (let i = 0; i < decimalCount; i++) {
             dot.textContent += String.fromCharCode(160);
         }
-
     }
 
     if (integerCount > 8 || isNaN(output) || output > 99999999 ) {
@@ -254,7 +345,6 @@ function outputToDisplay() {
         display.textContent = "ERR";
     } else {
         display.textContent = outputString;
-
     }
 }
 
@@ -266,17 +356,11 @@ function displayToOutput() {
     
 }
 
-
-
-btnPlus.addEventListener("click", function() { operationAdd() });
-
 function operationAdd() {
     if(power) {
         calculate("add")
     }
 }
-
-btnMinus.addEventListener("click", function() { operationSub() });
 
 function operationSub() {
     if(power) {
@@ -284,15 +368,11 @@ function operationSub() {
     }
 }
 
-btnX.addEventListener("click", function() { operationMul() });
-
 function operationMul() {
     if(power) {
         calculate("mul")
     }
 }
-
-btnDivide.addEventListener("click", function() { operationDiv() });
 
 function operationDiv() {
     if(power) {
@@ -300,52 +380,46 @@ function operationDiv() {
     }
 }
 
-btnRoot.addEventListener("click", function() { operationRoot() });
-
 function operationRoot() {
     blink();
     if(power) {
+        memoryShown = false;
         output = Math.sqrt(output);
         outputToDisplay();
     }
 }
 
-btnSquare.addEventListener("click", function() { operationSquare() });
-
 function operationSquare() {
     blink();
     if(power) {
+        memoryShown = false;
         output = output ** 2;
         outputToDisplay();
     }
 }
 
-btnFactorial.addEventListener("click", function() { operationFactorial() });
-
 function operationFactorial() {
     blink();
     if(power) {
+        memoryShown = false;
         output = 1 / output;
         outputToDisplay();
     }
 }
 
-btnPlusMinus.addEventListener("click", function() { operationPlusMinus() });
-
 function operationPlusMinus() {
     blink();
     if(power) {
+        memoryShown = false;
         output = output * (-1);
         outputToDisplay();
     }
 }
 
-
-btnPercent.addEventListener("click", function() { operationPercent() })
-
 function operationPercent() {
     blink();
     if(power) {
+        memoryShown = false;
         if (lastOperation == "add" ||
             lastOperation == "sub") {
                 calculate("pro");
@@ -357,26 +431,40 @@ function operationPercent() {
     }
 }
 
-btnMPlus.addEventListener("click", function() {
+function operationMPlus() {
     blink();
     if(power) {
+        memoryShown = false;
         memory += output;
+        memorySymbol.style.opacity = 1;
+        eraseInput = true;
     }
-})
+}
 
-btnRM.addEventListener("click", function() {
+function operationRM() {
     blink();
-    
-})
+    if(power) {
+        if (memoryShown) {
+            memory = 0;
+            memoryShown = false;
+            memorySymbol.style.opacity = 0;
+            eraseInput = true;
+        } else if (memory != 0) {
+            output = memory;
+            outputToDisplay();
+            memoryShown = true;
+            eraseInput = true;
+        }
+    }
+}
 
-btnEqual.addEventListener("click", function() {
-    equals("result")
-});
+
 
 function equals(operation) {
     blink();
     if (power) {
         clearAll = 1;
+        memoryShown = false;
 
         currentValue = output;          
         eraseInput = true;
@@ -415,12 +503,9 @@ function equals(operation) {
             temp = null;
         } else {
             lastOperation = operation;
-            temp = output;              ///
+            temp = output;              
         }
 
         outputToDisplay();
-        
-
     }
-    
 }
