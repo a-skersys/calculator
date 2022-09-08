@@ -2,10 +2,11 @@
     --fontRetro: 'Limelight', cursive;
     --fontText: 'Roboto', sans-serif;
     --fontDisplay: 'Syne Mono', monospace;
+    --color: darkslategrey;
 }
 
 body {
-    background-color: beige;
+    background: url(images/background.svg);
     margin: 0;
     padding: 0;
     font-family: var(--fontText);
@@ -17,20 +18,17 @@ body {
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 1800px;
+    width: 100%;
 }
 
 .title {
     width: 50%;
-    position: absolute;
+    position: relative;
     text-align: right;
-    top: 20px;
-    right: 20px;
-    border-right: 3px solid cadetblue;
-    border-bottom: 3px solid cadetblue;
+    margin-left: auto;
+    margin-top: 20px;
+    /* margin-right: 20px; */
+    border-bottom: 3px solid var(--color);
 }
 
 h1 {
@@ -38,25 +36,25 @@ h1 {
     max-width: 300px;
     font-family: var(--fontRetro);
     font-size: 3em;
-    color: cadetblue;
+    color: var(--color);
     font-weight: normal;
     text-align: right;
     padding: 20px;
     margin: 0;
+    
 }
 
 .info {
-    position: absolute;
+    position: relative;
     width: 50%;
-    top: 350px;
-    left: 20px;
-    padding: 20px;
-    margin: 0;
-    border-bottom: 3px solid cadetblue;
-    border-left: 3px solid cadetblue;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: auto;
+    border: 3px solid var(--color);
     font-family: var(--fontText);
     font-weight: 600;
-    color: cadetblue;
+    color: var(--color);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .info > p {
@@ -65,24 +63,24 @@ h1 {
 }
 
 .instruction {
-    position: absolute;
-    width: 50%;
-    top: 550px;
-    left: 20px;
-    padding: 20px;
-    margin: 0;
-    border-top: 3px solid cadetblue;
-    border-left: 3px solid cadetblue;
+    position: relative;
+    width: 40%;
+    padding: 30px;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-left: 20px;
+    border: 3px solid var(--color);
     font-family: var(--fontText);
     font-weight: 400;
     color: darkslategrey;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 h2 {
     font-family: var(--fontRetro);
     font-size: 2em;
     margin: 0;
-    color: cadetblue;
+    color: var(--color);
 }
 
 .instruction > h2:last-of-type {
@@ -128,34 +126,34 @@ li {
 
 span {
     display: inline-block;
-    background: cadetblue;
+    background: var(--color);
     padding: 5px 10px;
     border-radius: 5px;
     color: beige;
 }
 
 .about {
-    position: absolute;
-    width: 40%;
-    top: 600px;
-    right: 20px;
-    padding: 20px;
-    padding-top: 600px;
-    margin: 0;
-    border-left: 3px solid cadetblue;
-    border-bottom: 3px solid cadetblue;
+    position: relative;
+    width: calc(100%-100px);
+    padding: 30px;
+    margin: 20px;
+    border: 3px solid var(--color);
     font-family: var(--fontText);
     font-weight: 400;
     color: darkslategrey;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 a {
-    color: cadetblue;
+    color: var(--color);
 
 }
 
 .calculator {
-    width: 600px;
+    width: clamp(300px, 100%, 600px);
+    position: absolute;
+    top: 20px;
+    left: calc(25%);
 }
 
 .calculator img {
@@ -166,6 +164,7 @@ a {
 .calculator  div  {
     position: absolute;
     transform: none;
+    width: 100%;
     
 }
 
@@ -287,6 +286,10 @@ button:active ~ .button{
     transform: translate(0px, 4px);
 }
 
+.screen {
+    position: absolute;
+}
+
 .display, .sign, .dot, .memory {
     font-family: var(--fontDisplay);
     font-size: 1.4em;
@@ -324,10 +327,11 @@ button:active ~ .button{
 }
 
 footer {
+    margin: 0px;
     margin-top: auto;
     text-align: center;
     color: beige;
-    background-color: cadetblue;
+    background-color: var(--color);
     width: 100%;
 }
 
