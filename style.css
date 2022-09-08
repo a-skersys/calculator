@@ -11,7 +11,7 @@ body {
     padding: 0;
     font-family: var(--fontText);
     color: darkslategrey;
-    width: 100vw;
+    width: calc(100vw-10px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,6 +19,9 @@ body {
 
 .content {
     width: 100%;
+    min-width: 900px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .title {
@@ -150,10 +153,10 @@ a {
 }
 
 .calculator {
-    width: clamp(300px, 100%, 600px);
+    width: 600px;
     position: absolute;
     top: 20px;
-    left: calc(25%);
+    right: calc(50% - 300px);
 }
 
 .calculator img {
@@ -165,7 +168,6 @@ a {
     position: absolute;
     transform: none;
     width: 100%;
-    
 }
 
 button {
